@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Contato</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="email"], input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            background-color: #29a71a;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #57d40e;
+        }
+    </style>
+</head>
+<body>
+    <form id="contactForm">
+        <h1>Entre em contato:</h1>
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="numeroWhatsApp">Número do WhatsApp:</label>
+            <input type="tel" id="numeroWhatsApp" name="numeroWhatsApp" placeholder="Ex: 91999999999" required>
+        </div>
+        <div class="form-group">
+            <label for="msg">Mensagem:</label>
+            <input type="text" id="msg" name="msg" required>
+        </div>
+        
+        <button type="button" onclick="sendToWhatsApp()">
+            Enviar no WhatsApp
+        </button>
+    </form>
+
+    <script>
+        function sendToWhatsApp() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const msg = document.getElementById('msg').value;
+            const numeroWhatsApp = document.getElementById('numeroWhatsApp').value;
+
+            if (!nome || !email || !msg || !numeroWhatsApp) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            // Formatando o número do WhatsApp para incluir o código do país (55 para o Brasil)
+            const formattedNumber = `55${numeroWhatsApp.replace(/\D/g, '')}`;
+            const mensagem = `Solicitação de contato:\n\nNome: ${nome}\nEmail: ${email}\nNúmero: ${numeroWhatsApp}\nMensagem: ${msg}`;
+            const mensagemEncoded = encodeURIComponent(mensagem);
+
+            // Crie a URL do WhatsApp para o número especificado
+            const url = `https://api.whatsapp.com/send?phone=5547988831423&text=${mensagemEncoded}`;
+
+            // Exibir URL no console para depuração
+            console.log(`URL do WhatsApp: ${url}`);
+
+            // Abra a URL em uma nova aba
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
